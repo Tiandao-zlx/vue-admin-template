@@ -31,7 +31,6 @@
         <el-table-column prop="username" label="用户名"></el-table-column>
         <el-table-column prop="id" label="ID"></el-table-column>
         <el-table-column prop="mobile" label="手机号"></el-table-column>
-
         <el-table-column prop="email" label="邮箱地址"></el-table-column>
         <el-table-column prop="role_name" label="权限"></el-table-column>
         <el-table-column label="状态">
@@ -49,7 +48,7 @@
               <el-button type="danger" icon="el-icon-delete" @click="delUsers(scope.row.id)"></el-button>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="分配权限" placement="top">
-              <el-button type="warning" icon="el-icon-setting"></el-button>
+              <el-button type="warning" icon="el-icon-setting" @click="setRole(scope.row)"></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -112,6 +111,29 @@
           <el-button type="primary" @click="editUsers">确 定</el-button>
         </span>
       </el-dialog>
+      <!-- 分配角色 -->
+      <el-dialog title="分配角色" :visible.sync="setRoleDialogVisible" ref="setRole" width="50%" @close="setRoleDialogClosed">
+        <div>
+          <p>当前的用户：{{userInfo.username}}</p>
+          <p>当前的角色：{{userInfo.role_name}}</p>
+          <P>
+            分配角色：
+            <el-select v-model="selectedRoleId" placeholder="请选择">
+              <el-option
+                v-for="item in rolesList"
+                :key="item.id"
+                :label="item.roleName"
+                :value="item.id"
+              ></el-option>
+            </el-select>
+          </P>
+        </div>
+
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="setRoleDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="setUserRole">确 定</el-button>
+        </span>
+      </el-dialog>
     </el-card>
   </div>
 </template>
@@ -123,8 +145,10 @@ import {
   addUsers,
   delUser,
   getUser,
-  editUser
+  editUser,
+  setUserRole
 } from "@/network/users";
+import { getRolesList } from "@/network/roles";
 export default {
   data() {
     //自定义验证规则
@@ -141,10 +165,14 @@ export default {
       total: 0,
       query: "",
       pagenum: 0,
-      pagesize: 2,
+      pagesize: 10,
       // 控制添加用户对话框的显示与隐藏
       addDialogVisible: false,
       editDialogVisible: false,
+      setRoleDialogVisible: false,
+      userInfo: {},
+      rolesList: [],
+      selectedRoleId: null,
 
       // id:0,
       // mg_state:true
@@ -237,6 +265,7 @@ export default {
   },
   created() {
     this.getUsersList();
+    this.getRolesList();
   },
   methods: {
     getUsersList(query, pagenum, pagesize) {
@@ -296,6 +325,9 @@ export default {
     },
     editDialogClosed() {
       this.$refs.editFormRef.resetFields();
+    },
+    setRoleDialogClosed(){
+      this.selectedRoleId = ''
     },
     addUser() {
       this.$refs.addFormRef.validate(valid => {
@@ -383,14 +415,35 @@ export default {
             console.log(res);
             if (res.data.meta.status == 200) {
               this.$message.success("修改用户信息成功"),
-              this.editDialogVisible = false,
-              this.getUsersList(this.query, this.pagenum, this.pagesize)
+                (this.editDialogVisible = false),
+                this.getUsersList(this.query, this.pagenum, this.pagesize);
             } else {
-              this.$message.error('修改用户信息失败')
+              this.$message.error("修改用户信息失败");
             }
           });
         } else {
           this.$message.error("修改用户信息失败，请查看输入内容是否合法");
+        }
+      });
+    },
+    setRole(userInfo) {
+      this.userInfo = userInfo;
+      this.setRoleDialogVisible = true;
+    },
+    getRolesList() {
+      getRolesList().then(res => {
+        console.log(res);
+        this.rolesList = res.data.data;
+      });
+    },
+    setUserRole() {
+      setUserRole(this.userInfo.id, this.selectedRoleId).then(res => {
+        if (res.data.meta.status == 200) {
+          this.$message.success("修改用户权限成功");
+          this.getUsersList(this.query, this.pagenum, this.pagesize);
+          this.setRoleDialogVisible = false;
+        } else {
+          this.$message.error("修改用户权限失败");
         }
       });
     }

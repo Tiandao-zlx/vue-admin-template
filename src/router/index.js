@@ -41,6 +41,14 @@ const routes = [
       {
         path:"/goods",
         component: () => import("@/views/goods/GoodsList")
+      },
+      {
+        path:"/rights",
+        component: () => import("@/views/power/Rights")
+      },
+      {
+        path:"/roles",
+        component: () => import("@/views/power/Roles")
       }
     ]
   }

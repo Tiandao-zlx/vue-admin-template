@@ -17,7 +17,7 @@ import {
 //     })
 // }
 
-export const getUsersList = (query, pagenum = 1, pagesize = 2) => get('/users', {
+export const getUsersList = (query, pagenum = 1, pagesize = 10) => get('/users', {
     query,
     pagenum,
     pagesize
@@ -40,4 +40,8 @@ export const getUser = ( id ) => get(`/users/${id}`)
 export const editUser = ( id,email,mobile ) => PUT(`/users/${id}`,{
     email,
     mobile
+})
+
+export const setUserRole = (id,rid) => PUT(`/users/${id}/role`,{
+    rid
 })
