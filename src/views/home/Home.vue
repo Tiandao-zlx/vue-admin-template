@@ -5,7 +5,7 @@
     <el-header>
       <div class="head">
         <img src="@/assets/timg.jpg" alt />
-        <span>周廉兴的后台管理系统</span>
+        <span style="font-size : 25px">周廉兴的后台管理系统</span>
       </div>
       <el-button @click="logout" type="info">退出登录</el-button>
     </el-header>

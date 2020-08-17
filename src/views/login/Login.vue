@@ -91,10 +91,10 @@ export default {
         if (!valid) return;
         const { data: res } = await this.$http.post("login", this.ruleForm);
         // console.log(res);
-        if (res.meta.status !==200) return this.$message.error('登陆失败')
-        this.$message.success('登陆成功')
-        window.sessionStorage.setItem("token",res.data.token)
-        this.$router.push('/')
+        if (res.meta.status !== 200) return this.$message.error("登陆失败");
+        this.$message.success("登陆成功");
+        window.sessionStorage.setItem("token", res.data.token);
+        this.$router.push("/");
       });
     },
     resetForm(formName) {
@@ -105,6 +105,8 @@ export default {
 </script>
 <style lang="stylus" scoped>
 .about {
+  background: url('login1.jpg');
+  background-size: cover;
   background-color: #2D3A4B;
   height: 100%;
 }
