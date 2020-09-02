@@ -1,3 +1,6 @@
 import { post } from './request'
 
-export const 
+export const login = ( username,password ) => post('/login',{
+    username,
+    password
+})

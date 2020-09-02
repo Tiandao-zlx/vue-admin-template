@@ -14,6 +14,9 @@
       </el-row>
       <el-table
         :data="cateList"
+        v-loading="loading"
+        element-loading-text="玩命加载中"
+        element-loading-spinner="el-icon-loading"
         stripe
         row-key="cat_id"
         style="width: 100%"
@@ -117,6 +120,7 @@ export default {
   data() {
     return {
       editForm: [],
+      loading: true,
       value: [],
       cateList: [],
       parentCateList: [],
@@ -160,6 +164,7 @@ export default {
   },
   methods: {
     getCategoriesList() {
+      this.loading = true
       getCategoriesList(
         this.queryInfo.type,
         this.queryInfo.pagenum,
@@ -171,6 +176,8 @@ export default {
           this.cateList = res.data.data.result;
           console.log(this.cateList);
           this.total = res.data.data.total;
+        this.loading = false;
+
         }
       });
     },

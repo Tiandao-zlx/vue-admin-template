@@ -5,7 +5,7 @@
     <el-header>
       <div class="head">
         <img src="@/assets/timg.jpg" alt />
-        <span style="font-size : 25px">周廉兴的后台管理系统</span>
+        <span style="font-size : 25px">后台管理系统</span>
       </div>
       <el-button @click="logout" type="info">退出登录</el-button>
     </el-header>
@@ -46,7 +46,8 @@
         </el-menu>
       </el-aside>
       <!-- 主题内容区域 -->
-      <el-main>
+      <!-- style="background:url(logo.jpg) no-repeat;background-size:100%" -->
+      <el-main >
         <!-- 路由占位符 -->
         <router-view />
       </el-main>
@@ -112,7 +113,8 @@ export default {
   height 100%
 
 .el-header 
-  background-color #2B2F3A
+  // background-color #2B2F3A
+  background-image linear-gradient(to left ,yellow,red,black )
   display flex
   justify-content space-between
   align-items center
@@ -153,4 +155,5 @@ export default {
  text-align center
  letter-spacing 0.2em
  cursor pointer
+
 </style>

@@ -57,3 +57,4 @@ export const editGood = (id,
     pics,
     attrs
 })
+

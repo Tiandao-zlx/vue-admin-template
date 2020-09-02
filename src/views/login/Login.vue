@@ -15,7 +15,7 @@
         class="demo-ruleForm"
       >
         <!-- 账号 -->
-        <el-form-item label="账号" prop="username">
+        <el-form-item label="账号" prop="username" class="login-form">
           <el-input
             prefix-icon="el-icon-user-solid"
             v-model="ruleForm.username"
@@ -23,7 +23,7 @@
           ></el-input>
         </el-form-item>
         <!-- 密码 -->
-        <el-form-item label="密码" prop="password">
+        <el-form-item label="密码" prop="password" class="login-form">
           <el-input
             prefix-icon="el-icon-lock"
             placeholder="请输入密码"
@@ -33,7 +33,8 @@
         </el-form-item>
 
         <el-form-item class="btns">
-          <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+          <el-button type="primary" @click="submitForm('ruleForm')" class="btn">提交
+          </el-button>
           <el-button @click="resetForm('ruleForm')" type="info">重置</el-button>
         </el-form-item>
       </el-form>
@@ -43,7 +44,7 @@
 
 <script>
 // @ is an alias to /src
-
+import { login } from "@/network/login"
 export default {
   name: "About",
   components: {},
@@ -78,6 +79,9 @@ export default {
   },
   methods: {
     submitForm(formName) {
+      login(this.ruleForm.username,this.ruleForm.password).then(res=>{
+        console.log(res)
+      })
       this.$refs[formName].validate(async valid => {
         // if (valid) {
         //   const {data : res} = await this.$http.post('login',this.ruleForm);
@@ -114,7 +118,7 @@ export default {
 .loginForm {
   width: 550px;
   height: 350px;
-  background-color: #fff;
+  background-color: #00000068;
   border-radius: 20px;
   position: absolute;
   left: 50%;
@@ -131,7 +135,7 @@ export default {
     position: absolute;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #fff;
+    background-color: #00000068;
 
     img {
       width: 100%;
@@ -153,5 +157,20 @@ export default {
 .btns {
   display: flex;
   justify-content: center;
+}
+.el-form-item{
+    color: #fff;
+}
+.btn{
+  position relative
+  transition all 0.5s linear 
+}
+.btn:hover{
+  border-radius 5px
+  color #fff
+  box-shadow 0 0 5px 0 #03e9f4,
+             0 0 25px 0 #03e9f4,
+             0 0 50px 0 #03e9f4,
+             0 0 100px 0 #03e9f4
 }
 </style>

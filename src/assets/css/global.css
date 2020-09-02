@@ -21,3 +21,8 @@ html,body,#app{
 .ql-editor {
     min-height: 300px;
 }
+.login-form .el-form-item__label{
+
+    color:#fff ;
+
+}
